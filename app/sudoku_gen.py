@@ -1,4 +1,5 @@
 from math import sqrt
+from typing import Tuple, List, Any
 
 from sudoku import Sudoku
 
@@ -6,16 +7,16 @@ from sudoku import Sudoku
 class SudokuGen:
 
     @staticmethod
-    def generate(width: int, difficulty: float) -> list[list[int]]:
+    def generate(width: int, difficulty: float) -> tuple[Any, Sudoku]:
         """
-        Returns a random Sudoku puzzle with given width and difficulty.
+        Returns a random Sudoku puzzle with given width and difficulty and the solved version
 
         """
-        puzzle = Sudoku(width=width, difficulty=difficulty)
-        return puzzle.board
+        puzzle = Sudoku(width=width).difficulty(difficulty=difficulty)
+        return puzzle.board, puzzle.solve().board
 
     @staticmethod
-    def solve(arr: list[int], width: int, height: int) -> list[list[int]] or None:
+    def solve(arr: list[int]) -> list[list[int]] or None:
         """
         Solves the Sudoku puzzle with given width and height.
         arr: list of ints, line by line sudoku
@@ -24,14 +25,15 @@ class SudokuGen:
         board = Board.transform_into_board(arr=arr)
         if board is None:
             return None
-        height, width = len(board), len(board)
+        height, width = int(sqrt(len(board))), int(sqrt(len(board)))
         puzzle = Sudoku(width=width, height=height, board=board)
         if puzzle.validate() is False or not board:
             return None
+        print(puzzle.show())
         return puzzle.solve().board
 
     @staticmethod
-    def validate(arr: list[int], width: int, height: int) -> bool:
+    def validate(arr: list[int]) -> bool:
         """
         Validates the Sudoku puzzle with given width and height.
 
@@ -48,7 +50,7 @@ class SudokuGen:
 
 
     @staticmethod
-    def generate_custom(arr: list[int], width: int = 3, height: int = 3) -> list[list[int]] or None:
+    def generate_custom(arr: list[int],) -> list[list[int]] or None:
         board = Board.transform_into_board(arr=arr)
         if board:
             return Board.printable_board(board=board)
@@ -84,7 +86,7 @@ class Board:
         return arr
 
     @staticmethod
-    def printable_board(board: list[list[int]]):
+    def printable_board(board: list[list[int]] or Sudoku):
         table = ''
         width, height = int(sqrt(len(board))), int(sqrt(len(board)))
         size = width * height
@@ -109,5 +111,4 @@ class Board:
         if len(arr) not in cls.valid_lengths:
             return False
         return True
-
 

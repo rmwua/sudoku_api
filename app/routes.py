@@ -1,7 +1,7 @@
 from typing import Any, Union, Tuple, Annotated
 
 from flask import Blueprint, request, jsonify, Response
-from .sudoku_gen import SudokuGen
+from .sudoku_gen import SudokuGen, Board
 
 # from sudoku import Sudoku
 
@@ -19,8 +19,8 @@ def generate() -> Response:
     diff = request.args.get('diff') if request.args.get('level') is not None else 0.6
     width = request.args.get('width') if request.args.get('width') is not None else 3
     # puzzle = Sudoku(int(width)).difficulty(float(diff))
-    puzzle = SudokuGen.generate(width=int(width), difficulty=int(diff))
-    return jsonify(puzzle.__dict__["board"])
+    puzzle, solved = SudokuGen.generate(width=int(width), difficulty=float(diff))
+    return jsonify(Board.printable_board(puzzle))
 
 
 @main.route('/solve', methods=['GET'])
@@ -35,7 +35,7 @@ def solve() -> Response | Tuple[Response, int]:
 
 
 @main.route('/validate', methods=['GET'])
-def verify() -> Response | Tuple[Response, int]:
+def validate() -> Response | Tuple[Response, int]:
     """
     validates sudoku that is sent by user
     :return: JSON response
