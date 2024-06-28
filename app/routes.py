@@ -1,3 +1,4 @@
+import json
 from typing import Any, Union, Tuple, Annotated
 
 from flask import Blueprint, request, jsonify, Response
@@ -20,7 +21,8 @@ def generate() -> Response:
     width = request.args.get('width') if request.args.get('width') is not None else 3
     # puzzle = Sudoku(int(width)).difficulty(float(diff))
     puzzle, solved = SudokuGen.generate(width=int(width), difficulty=float(diff))
-    return jsonify(Board.printable_board(puzzle))
+    return jsonify({"sudoku": Board.printable_board(puzzle)},
+                   {"solved": Board.printable_board(solved)})
 
 
 @main.route('/solve', methods=['GET'])
@@ -31,7 +33,7 @@ def solve() -> Response | Tuple[Response, int]:
     """
     puzzle = request.get_json()['arr']
     result = SudokuGen.solve(puzzle)
-    return jsonify(result)
+    return jsonify(Board.printable_board(result))
 
 
 @main.route('/validate', methods=['GET'])

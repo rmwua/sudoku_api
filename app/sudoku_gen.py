@@ -29,7 +29,6 @@ class SudokuGen:
         puzzle = Sudoku(width=width, height=height, board=board)
         if puzzle.validate() is False or not board:
             return None
-        print(puzzle.show())
         return puzzle.solve().board
 
     @staticmethod
@@ -47,7 +46,6 @@ class SudokuGen:
         except (IndexError, TypeError, ValueError):
             return False
         return puzzle.validate()
-
 
     @staticmethod
     def generate_custom(arr: list[int],) -> list[list[int]] or None:
@@ -87,7 +85,7 @@ class Board:
 
     @staticmethod
     def printable_board(board: list[list[int]] or Sudoku):
-        table = ''
+        table = '\n'
         width, height = int(sqrt(len(board))), int(sqrt(len(board)))
         size = width * height
         cell_length = 1
