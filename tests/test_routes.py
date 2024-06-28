@@ -34,6 +34,14 @@ class TestRoutes(unittest.TestCase):
         response = client.get(f'/solve', json={'arr': arr})
         self.assertEqual(200, response.status_code)
 
+    def test_validate(self):
+        arr = [1, 2, 3]
+        app = create_app()
+        client = app.test_client()
+        response1 = client.get('/validate', json={'arr': arr})
+
+        self.assertEqual(response1.status_code, 200)
+
 
     # def test_create_custom(self):
     #     app = create_app()

@@ -29,15 +29,17 @@ def solve() -> Response | Tuple[Response, int]:
     solves sudoku that is sent by user
     :return: JSON response
     """
-    to_solve = request.get_json()['arr']
-    result = SudokuGen.solve(to_solve)
+    puzzle = request.get_json()['arr']
+    result = SudokuGen.solve(puzzle)
     return jsonify(result)
 
 
-@main.route('/verify', methods=['GET'])
+@main.route('/validate', methods=['GET'])
 def verify() -> Response | Tuple[Response, int]:
     """
-    verifies sudoku that is sent by user
+    validates sudoku that is sent by user
     :return: JSON response
     """
-    pass
+    puzzle = request.get_json()['arr']
+    result = SudokuGen.validate(puzzle)
+    return jsonify(result)
