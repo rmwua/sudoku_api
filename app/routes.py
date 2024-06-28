@@ -25,23 +25,27 @@ def generate() -> Response:
                    {"solved": Board.printable_board(solved)})
 
 
-@main.route('/solve', methods=['GET'])
+@main.route('/solve', methods=['POST'])
 def solve() -> Response | Tuple[Response, int]:
     """
     solves sudoku that is sent by user
     :return: JSON response
     """
     puzzle = request.get_json()['arr']
+    if not puzzle:
+        return jsonify({"error": "No puzzle provided"}), 400
     result = SudokuGen.solve(puzzle)
     return jsonify(Board.printable_board(result))
 
 
-@main.route('/validate', methods=['GET'])
+@main.route('/validate', methods=['POST'])
 def validate() -> Response | Tuple[Response, int]:
     """
     validates sudoku that is sent by user
     :return: JSON response
     """
     puzzle = request.get_json()['arr']
+    if not puzzle:
+        return jsonify({"error": "No puzzle provided"}), 400
     result = SudokuGen.validate(puzzle)
     return jsonify(result)
