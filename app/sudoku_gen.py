@@ -1,3 +1,4 @@
+import math
 from math import sqrt
 from typing import Tuple, List, Any
 
@@ -39,11 +40,25 @@ class SudokuGen:
         """
         board = Board.transform_into_board(arr=arr)
         if board is None:
+            msg = "Board is None"
+            print(msg)
             return False
-        height, width = len(board), len(board)
+
+        n = len(board)
+        if any(len(row) != n for row in board):
+            print(f"Board is not square: expected {n} cols per row.")
+            return False
+
+        block_size = math.isqrt(n)
+        if block_size * block_size != n:
+            print(f"Cannot determine block size: {n} is not a perfect square.")
+            return False
+
         try:
-            puzzle = Sudoku(width=width, height=height, board=board)
-        except (IndexError, TypeError, ValueError):
+            puzzle = Sudoku(width=block_size, height=block_size, board=board)
+        except Exception as e:
+            msg = f"Sudoku initialization/validation error: {e!r}"
+            print(msg)
             return False
         return puzzle.validate()
 

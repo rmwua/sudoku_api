@@ -50,7 +50,7 @@ class TestGenerator(unittest.TestCase):
         result = SudokuGen.validate(board)
         result2 = SudokuGen.validate(board2)
         result3 = SudokuGen.validate(board3)
-        # self.assertEqual(result, True)
+        self.assertEqual(result, True)
         self.assertEqual(result2, False)
         self.assertEqual(result3, False)
 

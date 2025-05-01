@@ -1,10 +1,6 @@
-import json
-from typing import Any, Union, Tuple, Annotated
-
+from typing import Tuple
 from flask import Blueprint, request, jsonify, Response
 from .sudoku_gen import SudokuGen, Board
-
-# from sudoku import Sudoku
 
 main = Blueprint('main', __name__)
 
