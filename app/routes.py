@@ -13,10 +13,10 @@ def generate() -> Response:
 
     :return:JSON response
     # """
-    diff = request.args.get('diff') if request.args.get('level') is not None else 0.6
-    width = request.args.get('width') if request.args.get('width') is not None else 3
-    # puzzle = Sudoku(int(width)).difficulty(float(diff))
-    puzzle, solved = SudokuGen.generate(width=int(width), difficulty=float(diff))
+    width = request.args.get("width", default=3, type=int)
+    difficulty = request.args.get("difficulty", default=0.6, type=float)
+
+    puzzle, solved = SudokuGen.generate(width=int(width), difficulty=float(difficulty))
     return jsonify({"sudoku": Board.printable_board(puzzle)},
                    {"solved": Board.printable_board(solved)})
 

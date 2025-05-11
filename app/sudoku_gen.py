@@ -1,5 +1,7 @@
 import math
+import sys
 from math import sqrt
+from random import randrange
 from typing import Tuple, List, Any
 
 from sudoku import Sudoku
@@ -13,7 +15,8 @@ class SudokuGen:
         Returns a random Sudoku puzzle with given width and difficulty and the solved version
 
         """
-        puzzle = Sudoku(width=width).difficulty(difficulty=difficulty)
+        seed = randrange(sys.maxsize)
+        puzzle = Sudoku(width=width, seed=seed).difficulty(difficulty=difficulty)
         return puzzle.board, puzzle.solve().board
 
     @staticmethod
