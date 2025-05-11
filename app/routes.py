@@ -31,6 +31,8 @@ def solve() -> Response | Tuple[Response, int]:
     if not puzzle:
         return jsonify({"error": "No puzzle provided"}), 400
     result = SudokuGen.solve(puzzle)
+    if not result:
+        return jsonify({"error": "No solution found"}), 400
     return jsonify(Board.printable_board(result))
 
 

@@ -33,7 +33,12 @@ class SudokuGen:
         puzzle = Sudoku(width=width, height=height, board=board)
         if puzzle.validate() is False or not board:
             return None
-        return puzzle.solve().board
+        try:
+            solved = puzzle.solve(raising=True).board
+        except Exception as e:
+            print("Error: ", e)
+            return None
+        return solved
 
     @staticmethod
     def validate(arr: list[int]) -> bool:
