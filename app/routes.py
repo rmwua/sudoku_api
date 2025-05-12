@@ -5,6 +5,11 @@ from .sudoku_gen import SudokuGen, Board
 main = Blueprint('main', __name__)
 
 
+@main.route('/', methods=['GET'])
+def health_check():
+    return "OK", 200
+
+
 @main.route('/generate/', methods=['GET'])
 def generate() -> Response:
     """
