@@ -3,5 +3,8 @@ from app import create_app
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import os
+    debug = os.getenv('FLASK_ENV', 'production') != 'production'
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=debug)
 
