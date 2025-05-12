@@ -12,9 +12,10 @@ COPY . .
 
 # Устанавливаем переменную окружения для Flask
 ENV FLASK_APP=run.py
+ENV FLASK_ENV=production
 
 # Открываем порт 5000 для Flask-приложения
 EXPOSE 5000
 
 # Команда для запуска Flask-приложения
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "run:app"]
