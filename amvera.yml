@@ -1,0 +1,30 @@
+meta:
+  toolchain: {}
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env:
+      PORT: "5000"
+      FLASK_ENV: "production"
+    command:
+      - "gunicorn"
+      - "-w"
+      - "1"
+      - "-b"
+      - "0.0.0.0:${PORT}"
+      - "run:app"
+    health_check:
+      path: "/"
+      interval: "10s"
+      timeout:  "2s"
+    ports:
+      - container: 5000
+
+domains:
+  - host: "sudoku-api-rmwua.amvera.io"
+    path: "/"
+    service: "app"
+    port: 5000
