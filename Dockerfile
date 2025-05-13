@@ -7,6 +7,6 @@ COPY . .
 
 ENV FLASK_ENV=production
 
-EXPOSE 8080
+EXPOSE 80
 
-CMD ["sh","-c","exec gunicorn -w 1 -b 0.0.0.0:${PORT:-8080} run:app"]
+CMD ["sh","-c","exec gunicorn -w 1 -b 0.0.0.0:${PORT:-80} run:app"]
