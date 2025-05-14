@@ -10,7 +10,7 @@ def health_check():
     return "OK", 200
 
 
-@main.route('/generate/', methods=['GET'])
+@main.route('/generate', methods=['GET'])
 def generate() -> Response:
     """
     creates a sudoku puzzle with levels from 1 to 3
